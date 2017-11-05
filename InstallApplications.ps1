@@ -92,10 +92,10 @@ Function InstallGit {
     )
 
     Copy-Item -Path $PSScriptRoot\config\git\gitconfig.local -Destination $HOME\.gitconfig.local | Out-null
-    New-Item -ItemType HardLink -Path $HOME -Name .gitignore -Value $PSScriptRoot\config\git\gitignore | Out-null
-    New-Item -ItemType HardLink -Path $HOME -Name .gitattributes -Value $PSScriptRoot\config\git\gitattributes | Out-null
-    New-Item -ItemType HardLink -Path $HOME -Name .gitconfig -Value $PSScriptRoot\config\git\gitconfig | Out-null
-    New-Item -ItemType HardLink -Path $HOME -Name .vimrc -Value $PSScriptRoot\config\vim\vimrc | Out-null
+    New-Item -ItemType HardLink -Force -Path $HOME -Name .gitignore -Value $PSScriptRoot\config\git\gitignore | Out-null
+    New-Item -ItemType HardLink -Force -Path $HOME -Name .gitattributes -Value $PSScriptRoot\config\git\gitattributes | Out-null
+    New-Item -ItemType HardLink -Force -Path $HOME -Name .gitconfig -Value $PSScriptRoot\config\git\gitconfig | Out-null
+    New-Item -ItemType HardLink -Force -Path $HOME -Name .vimrc -Value $PSScriptRoot\config\vim\vimrc | Out-null
 }
 
 Function UninstallGit {
@@ -125,7 +125,7 @@ Function Uninstall7Zip { Uninstall-Package '7zip.install' }
 
 Function InstallHyperJs {
     Install-Package 'hyper' 'Hyper.js'
-    New-Item -Type HardLink -Force -Path $HOME -Name .hyper.js -Target $PSScriptRoot\config\hyperjs\hyper.json
+    New-Item -Type HardLink -Force -Path $HOME -Name .hyper.js -Target $PSScriptRoot\config\hyperjs\hyper.js | Out-Null
 }
 
 Function UninstallHyperJs { Uninstall-Package "hyper" }
@@ -193,7 +193,7 @@ Function RequireAdmin {
 }
 
 Function Remove-DesktopShortcuts {
-    Get-ChildItem -Path $HOME\Desktop -Filter *.lnk | ForEach-Object { Remove-Item $_ }
+    Get-ChildItem -Path $HOME\Desktop -Filter *.lnk | ForEach-Object { Remove-Item $_ -ErrorAction SilentlyContinue }
 }
 Function Uninstall-Package([string] $packageName) {
     if(Get-CommandAvailable "choco") {
@@ -209,7 +209,7 @@ Function Install-Package($packageName, $dispayName, $arguments){
     $arguments | ForEach-Object { $chocoArgs = "$_ $chocoArgs"}
 
     if(Get-CommandAvailable "choco") {
-        $operation = if(Test-PackageInstalled) {"upgrade"} else {"install"}
+        $operation = if(Test-PackageInstalled $packageName) {"upgrade"} else {"install"}
         Write-Host -NoNewline "Performing $operation of $dispayName..."
         Invoke-Expression "choco $operation $packageName $chocoArgs" -ErrorAction Stop | Out-Null
         Remove-DesktopShortcuts
@@ -226,7 +226,7 @@ Function Test-PackageInstalled($packageName) {
         $installedName = $_.Split(" ") | Select-Object -First 1;
         if($installedName -eq $packageName) {
             $matchFound = $true
-        }
+        } 
     }
     return $matchFound
 }

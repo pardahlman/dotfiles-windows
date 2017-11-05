@@ -84,7 +84,7 @@ module.exports = {
       //
       // Powershell on Windows
       // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-      shell: '',
+      shell: 'C:\\Windows\\System32\\bash.exe',
 
       // for setting shell arguments (i.e. for using interactive shellArgs: ['-i'])
       // by default ['--login'] will be used
@@ -116,8 +116,11 @@ module.exports = {
     //   `@company/project`
     //   `project#1.0.1`
     plugins: [
-        'hyperpower',
-        'hyperemoji'
+        // 'hyperpower',
+        'hyper-solarized-dark',
+        'hyperemoji',
+        'hyper-command-gifs',
+        'htyt'
     ],
 
     // in development, you can create a directory under
