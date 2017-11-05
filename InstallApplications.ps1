@@ -86,7 +86,7 @@ Function UninstallVisualStudio {
 }
 
 Function InstallGit {
-    Install-Package 'git' 'Git' @(
+    Install-Package 'git.install' 'Git' @(
         '/NoShellIntegration', # Disables shell integration ( "Git GUI Here" and "Git Bash Here" entries in context menus).
         '/NoGitLfs' # Disable Git LFS installation.
     )
@@ -200,7 +200,7 @@ Function Remove-DesktopShortcuts {
 }
 Function Uninstall-Package([string] $packageName) {
     if(Get-CommandAvailable "choco") {
-        Invoke-Expression "choco uninstall $packageName" -ErrorAction SilentlyContinue | Out-Null
+        Invoke-Expression "choco uninstall $packageName --confirm" -ErrorAction SilentlyContinue | Out-Null
     } else {
         Write-Host "Command 'choco' is not available. Is Chocolatey installed?" -ForegroundColor Red
         Exit
@@ -208,13 +208,12 @@ Function Uninstall-Package([string] $packageName) {
 }
 
 Function Install-Package($packageName, $dispayName, $arguments){
-    $chocoArgs = "--confirm"
-    $arguments | ForEach-Object { $chocoArgs = "$_ $chocoArgs"}
+    $chocoArgs = "--params='$($arguments -join ' ')'"
 
     if(Get-CommandAvailable "choco") {
         $operation = if(Test-PackageInstalled $packageName) {"upgrade"} else {"install"}
         Write-Host -NoNewline "Performing $operation of $dispayName..."
-        Invoke-Expression "choco $operation $packageName $chocoArgs" -ErrorAction Stop | Out-Null
+        Invoke-Expression "choco $operation $packageName $chocoArgs --confirm" -ErrorAction Stop | Out-Null
         Remove-DesktopShortcuts
         Write-Host "done!" -ForegroundColor Green
     } else {
