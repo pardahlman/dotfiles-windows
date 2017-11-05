@@ -1,7 +1,16 @@
 {
-    "window.zoomLevel": 0,
+    "editor.detectIndentation": true,
+    "editor.codeLens": false,
     "editor.renderWhitespace": "all",
-    "editor.renderIndentGuides":false,
-    "files.trimTrailingWhitespace":true,
-    "files.insertFinalNewline": true
+    "window.zoomLevel": 0,
+    "files.insertFinalNewline": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/*.js.map": true,
+        "**/node_modules": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        }
+    }
 }
