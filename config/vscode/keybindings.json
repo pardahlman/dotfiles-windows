@@ -1,0 +1,27 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    {
+        "key": "shift+alt+l",
+        "command": "workbench.files.action.showActiveFileInExplorer"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "explorer.newFile"
+    },
+    {
+        "key": "ctrl+shift+alt+n",
+        "command": "workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "-workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "ctrl+shift+n",
+        "command": "workbench.action.files.newFolder"
+    },
+    {
+        "key": "ctrl+alt+n",
+        "command": "explorer.newFolder"
+    }
+]
