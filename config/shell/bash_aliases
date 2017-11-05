@@ -22,8 +22,3 @@ alias q="exit"
 alias rm="rm -rf --"
 alias t="tmux"
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Load OS specific aliases.
-
-. "aliases/$OS/bash_aliases"
