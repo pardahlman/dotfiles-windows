@@ -10,6 +10,7 @@ update
 upgrade
 
 ./nvm.sh
+./dotnet.sh
 
 ./git.sh
 ./misc_tools.sh
