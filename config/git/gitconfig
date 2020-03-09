@@ -1,10 +1,13 @@
 [alias]
 
     a   = commit --amend
+    ane = commit --amend --no-edit
+    aap = !git add . && git ane && git pf
     br  = branch
     c   = commit
     ca  = !git add -A && git commit             # Commit all changes.
     co  = checkout
+    cob = checkout -b
     cp  = cherry-pick
     d   = diff
     dc  = diff --cached
@@ -12,8 +15,10 @@
     g   = log --graph --pretty=custom           # Show custom graph.
     git = !exec git                             # Allow `$ git git git...`
     l   = log --pretty=custom                   # Show custom log.
+    ll  = l -1                                  # Log latest
     lc  = shortlog --email --numbered --summary # List contributors.
     p   = push
+    pf  = push --force-with-lease
     r   = rebase
     rlc = reset --hard HEAD~1                   # Remove last commit.
     s   = status
@@ -84,6 +89,13 @@
         git tag $1; \
     }; f"
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Removes all local branches that are merged
+    # except the current one
+
+    dlb = "!f() { git branch --merged | grep -v \\* | xargs git branch -D; }; f"
+
 
 [color "branch"]
 
@@ -108,7 +120,7 @@
 
     abbrev = 12
     attributesfile = ~/.gitattributes
-    autocrlf = false
+    autocrlf = true
     editor = vim
     excludesfile = ~/.gitignore
 
@@ -117,6 +129,9 @@
     # Use `hexdump` to diff binary files.
 
     textconv = hexdump -v -C
+
+[fetch]
+    prune = true
 
 [pretty]
 
@@ -134,7 +149,7 @@
     # annotated tags when pushing branches out.
 
     followTags = true
-	default = current
+    default = current
 
 [user]
 
